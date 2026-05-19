@@ -99,30 +99,30 @@ function Home() {
   const displayContactText = profile?.contactText || "Have an opening, an interesting project framework suggestion, or want to discuss full-stack or security challenges? Send a message directly into my database cluster console.";
 
   const metrics = (profile?.metrics && profile.metrics.length > 0) ? profile.metrics : [
-    { title: "3+", text: "Years Coding" },
-    { title: "15+", text: "Projects Built" },
-    { title: "3.08", text: "Major CGPA" }
+    // { title: "3+", text: "Years Coding" },
+    // { title: "15+", text: "Projects Built" },
+    // { title: "3.08", text: "Major CGPA" }
   ];
 
   const certifications = (profile?.certifications && profile.certifications.length > 0) ? profile.certifications : [
-    { title: "AWS Academy Graduate: Cloud Foundations", issuer: "AWS Academy" },
-    { title: "Web & Mobile App Development", issuer: "Saylani Mass IT Training Program (SMIT)" },
-    { title: "Career Essentials in Software Development", issuer: "Microsoft & LinkedIn" }
+    // { title: "AWS Academy Graduate: Cloud Foundations", issuer: "AWS Academy" },
+    // { title: "Web & Mobile App Development", issuer: "Saylani Mass IT Training Program (SMIT)" },
+    // { title: "Career Essentials in Software Development", issuer: "Microsoft & LinkedIn" }
   ];
 
   const education = (profile?.education && profile.education.length > 0) ? profile.education : [
-    { institution: "SZABIST", degree: "BS Computer Science", timeline: "2021 - 2025", details: "Major CGPA: 3.08" }
+    // { institution: "SZABIST", degree: "BS Computer Science", timeline: "2021 - 2025", details: "Major CGPA: 3.08" }
   ];
 
   const experience = (profile?.experience && profile.experience.length > 0) ? profile.experience : [
-    { company: "Tech Startup", role: "Software Engineer Intern", timeline: "2023 - Present", description: "Built full-stack React and Node applications." }
+    // { company: "Tech Startup", role: "Software Engineer Intern", timeline: "2023 - Present", description: "Built full-stack React and Node applications." }
   ];
 
   const skillsData = profile?.skills || {
-    languages: ["JavaScript", "Python", "Java"],
-    frameworks: ["React", "Node.js", "Express", "Bootstrap"],
-    databases: ["MongoDB", "SQL"],
-    tools: ["Git", "Docker", "AWS", "Postman"]
+    // languages: ["JavaScript", "Python", "Java"],
+    // frameworks: ["React", "Node.js", "Express", "Bootstrap"],
+    // databases: ["MongoDB", "SQL"],
+    // tools: ["Git", "Docker", "AWS", "Postman"]
   };
 
   // Loop replacements
@@ -178,7 +178,7 @@ function Home() {
       );
     }
   } else {
-    projectCards.push(<p key="no-proj" className="text-muted small ps-3">No live DB collections running. Boot up server for dynamic state map arrays.</p>);
+    // projectCards.push(<p key="no-proj" className="text-muted small ps-3">DB Error or Empty array.</p>);
   }
 
   const certWidgets = [];
@@ -307,9 +307,9 @@ function Home() {
             </p>
             
             <div className="d-flex flex-wrap gap-3 mb-5">
-              <a href="#projects" className="btn btn-info text-dark fw-bold px-4 py-2 shadow-lg rounded-3">
+              {/* <a href="#projects" className="btn btn-info text-dark fw-bold px-4 py-2 shadow-lg rounded-3">
                 View Work <i className="bi bi-arrow-right ms-2"></i>
-              </a>
+              </a> */}
               <a href="/Kumail_Asghar_Resume.pdf" download className="btn btn-outline-secondary text-white px-4 py-2 rounded-3" style={{ borderColor: 'rgba(255,255,255,0.15)' }}>
                 Resume <i className="bi bi-download ms-2"></i>
               </a>
@@ -343,6 +343,7 @@ function Home() {
           </div>
         </div>
       </header>
+{projectCards.length !== 0 && (
 
       <section id="projects" className="container py-5 border-top" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
         <h2 className="fw-bold text-white mb-4"><span className="text-info">#</span> Engineering Showroom</h2>
@@ -350,7 +351,7 @@ function Home() {
           {projectCards}
         </div>
       </section>
-
+)}
       <section id="skills" className="container py-5 border-top" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
         <h2 className="fw-bold text-white mb-4"><span className="text-info">#</span> Technical Arsenal</h2>
         <div className="row g-4">
@@ -358,20 +359,24 @@ function Home() {
         </div>
       </section>
 
+{eduWidgets.length !== 0 && (
+
+
       <section id="education" className="container py-5 border-top" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
         <h2 className="fw-bold text-white mb-4"><span className="text-info">#</span> Academic Background</h2>
         <div className="row g-4">
           {eduWidgets}
         </div>
       </section>
-
-      <section id="experience" className="container py-5 border-top" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
+)}
+{expWidgets.length !== 0 && (
+        <section id="experience" className="container py-5 border-top" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
         <h2 className="fw-bold text-white mb-4"><span className="text-info">#</span> Professional Experience</h2>
         <div className="row g-4">
           {expWidgets}
         </div>
       </section>
-
+)}
       <section id="certifications" className="container py-5 border-top" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
         <h2 className="fw-bold text-white mb-4"><span className="text-info">#</span> Professional Certifications</h2>
         <div className="row g-3">
@@ -400,15 +405,15 @@ function Home() {
               <form onSubmit={handleContactSubmit}>
                 <div className="mb-3">
                   <label className="form-label text-secondary small fw-semibold">Your Name</label>
-                  <input type="text" className="form-control text-white custom-input-dark" value={contactForm.name} onChange={e => setContactForm({...contactForm, name: e.target.value})} placeholder="John Doe" required />
+                  <input type="text" className="form-control text-white custom-input-dark" value={contactForm.name} onChange={e => setContactForm({...contactForm, name: e.target.value})} placeholder="Ali" required />
                 </div>
                 <div className="mb-3">
                   <label className="form-label text-secondary small fw-semibold">Email Address</label>
-                  <input type="email" className="form-control text-white custom-input-dark" value={contactForm.email} onChange={e => setContactForm({...contactForm, email: e.target.value})} placeholder="john@example.com" required />
+                  <input type="email" className="form-control text-white custom-input-dark" value={contactForm.email} onChange={e => setContactForm({...contactForm, email: e.target.value})} placeholder="ali@example.com" required />
                 </div>
                 <div className="mb-3">
                   <label className="form-label text-secondary small fw-semibold">Message Body</label>
-                  <textarea rows="4" className="form-control text-white custom-input-dark" value={contactForm.text} onChange={e => setContactForm({...contactForm, text: e.target.value})} placeholder="Hey Kumail, let's talk about a project framework..." required></textarea>
+                  <textarea rows="4" className="form-control text-white custom-input-dark" value={contactForm.text} onChange={e => setContactForm({...contactForm, text: e.target.value})} placeholder="Hey Kumail, let's talk about a project ..." required></textarea>
                 </div>
                 <button type="submit" className="btn btn-info text-dark fw-bold w-100 py-2 rounded-3">
                   Transmit Message <i className="bi bi-send-fill ms-1"></i>
