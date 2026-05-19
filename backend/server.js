@@ -98,4 +98,10 @@ app.get('/api/contact', authMiddleware, async (req, res) => {
 
 
 
-app.listen(5000, () => console.log('Backend Engine Running on Port 5000'));
+// Replace your old app.listen block at the bottom with this:
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => console.log(`Backend running locally on port ${PORT}`));
+}
+
+module.exports = app; // CRITICAL: This allows Vercel to treat Express as a serverless function handler
