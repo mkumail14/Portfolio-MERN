@@ -1,17 +1,18 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const connectDB = require('../config/db');
-const multer = require('multer');
 const path = require('path');
+const multer = require('multer');
+
+// Ensure dotenv is loaded at the absolute top before any internal modules run
+dotenv.config();
+
+// Updated paths to go up one directory level out of 'api'
+const connectDB = require('../config/db');
 const authMiddleware = require('../middleware/authMiddleware');
 
 const { v2: cloudinary } = require('cloudinary');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
-
-// Ensure dotenv is loaded at the absolute top of the file
-dotenv.config();
-
 
 // Establish the database connection
 connectDB();
@@ -19,9 +20,6 @@ connectDB();
 const app = express();
 app.use(cors());
 app.use(express.json());
-
-// ... rest of your route logic blocks (projects, profiles, cloudinary)
-
 
 // 1. Authenticate the Cloudinary SDK using your .env keys
 cloudinary.config({
@@ -54,7 +52,7 @@ const certStorage = new CloudinaryStorage({
 });
 const uploadCert = multer({ storage: certStorage });
 
-// API Route Bindings
+// API Route Bindings (Updated to point up one folder level)
 app.use('/api/auth', require('../routes/authRoutes'));
 app.use('/api/projects', require('../routes/projectRoutes'));
 app.use('/api/profile', require('../routes/profileRoutes'));
@@ -79,6 +77,7 @@ app.post('/api/contact', async (req, res) => {
     const { name, email, text } = req.body;
     if (!name || !email || !text) return res.status(400).json({ message: "All fields are required." });
     
+    // Updated path to step out of the api folder to find models
     const Message = require('../models/Message');
     const newMessage = await Message.create({ name, email, text });
     res.status(201).json({ message: "Message securely saved to database!", data: newMessage });
@@ -87,13 +86,10 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
-
-
-
-
-// Add this inside backend/server.js right below your app.post('/api/contact') endpoint:
+// GET Route to fetch messages
 app.get('/api/contact', authMiddleware, async (req, res) => {
   try {
+    // Updated path to step out of the api folder to find models
     const Message = require('../models/Message');
     const messages = await Message.find().sort({ createdAt: -1 });
     res.json(messages);
@@ -102,12 +98,10 @@ app.get('/api/contact', authMiddleware, async (req, res) => {
   }
 });
 
-
-
-// Replace your old app.listen block at the bottom with this:
+// Serverless execution configuration
 if (process.env.NODE_ENV !== 'production') {
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => console.log(`Backend running locally on port ${PORT}`));
 }
 
-module.exports = app; // CRITICAL: This allows Vercel to treat Express as a serverless function handler
+module.exports = app; // CRITICAL for Vercel Serverless Function engine
