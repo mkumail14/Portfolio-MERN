@@ -14,7 +14,7 @@ function Home() {
   useEffect(() => {
     const trackVisit = async () => {
       try {
-        await axios.post('http://localhost:5000/api/visits', {
+        await axios.post('https://portfolio-mern-pvfn.vercel.app/api/visits', {
           userAgent: navigator.userAgent,
           platform: navigator.platform,
           language: navigator.language
@@ -28,8 +28,8 @@ function Home() {
 
   useEffect(() => {
     Promise.all([
-      axios.get('http://localhost:5000/api/profile'),
-      axios.get('http://localhost:5000/api/projects')
+      axios.get('https://portfolio-mern-pvfn.vercel.app/api/profile'),
+      axios.get('https://portfolio-mern-pvfn.vercel.app/api/projects')
     ])
     .then(([profileRes, projectsRes]) => {
       setProfile(profileRes.data);
@@ -47,7 +47,7 @@ function Home() {
 
   const handleContactSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:5000/api/contact', contactForm)
+    axios.post('https://portfolio-mern-pvfn.vercel.app/api/contact', contactForm)
       .then(() => {
         setFormStatus({ text: "Message sent successfully! Stored in MongoDB.", type: "success" });
         setContactForm({ name: '', email: '', text: '' });
