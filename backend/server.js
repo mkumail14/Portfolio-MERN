@@ -10,12 +10,8 @@ const { v2: cloudinary } = require('cloudinary');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 // Ensure dotenv is loaded at the absolute top of the file
-const dotenv = require('dotenv');
 dotenv.config();
 
-const express = require('express');
-const cors = require('cors');
-const connectDB = require('./config/db');
 
 // Establish the database connection
 connectDB();
