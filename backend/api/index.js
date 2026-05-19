@@ -1,10 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const connectDB = require('./config/db');
+const connectDB = require('../config/db');
 const multer = require('multer');
 const path = require('path');
-const authMiddleware = require('./middleware/authMiddleware');
+const authMiddleware = require('../middleware/authMiddleware');
 
 const { v2: cloudinary } = require('cloudinary');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
@@ -55,10 +55,10 @@ const certStorage = new CloudinaryStorage({
 const uploadCert = multer({ storage: certStorage });
 
 // API Route Bindings
-app.use('/api/auth', require('./routes/authRoutes'));
-app.use('/api/projects', require('./routes/projectRoutes'));
-app.use('/api/profile', require('./routes/profileRoutes'));
-app.use('/api/visits', require('./routes/visitRoutes'));
+app.use('/api/auth', require('../routes/authRoutes'));
+app.use('/api/projects', require('../routes/projectRoutes'));
+app.use('/api/profile', require('../routes/profileRoutes'));
+app.use('/api/visits', require('../routes/visitRoutes'));
 
 // POST Route for Certificate Upload
 app.post('/api/upload-cert', authMiddleware, uploadCert.single('certificate'), (req, res) => {
@@ -79,7 +79,7 @@ app.post('/api/contact', async (req, res) => {
     const { name, email, text } = req.body;
     if (!name || !email || !text) return res.status(400).json({ message: "All fields are required." });
     
-    const Message = require('./models/Message');
+    const Message = require('../models/Message');
     const newMessage = await Message.create({ name, email, text });
     res.status(201).json({ message: "Message securely saved to database!", data: newMessage });
   } catch (err) {
@@ -94,7 +94,7 @@ app.post('/api/contact', async (req, res) => {
 // Add this inside backend/server.js right below your app.post('/api/contact') endpoint:
 app.get('/api/contact', authMiddleware, async (req, res) => {
   try {
-    const Message = require('./models/Message');
+    const Message = require('../models/Message');
     const messages = await Message.find().sort({ createdAt: -1 });
     res.json(messages);
   } catch (err) {
