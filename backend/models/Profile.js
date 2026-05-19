@@ -39,6 +39,7 @@ const ProfileSchema = new mongoose.Schema({
       { title: "3.08", text: "Major CGPA" }
     ] 
   },
+  resumeUrl: { type: String, default: "" },
   certifications: { 
     type: [{ title: String, issuer: String, pdfUrl: String }], 
     default: [

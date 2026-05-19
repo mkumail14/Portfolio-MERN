@@ -92,9 +92,10 @@ function Admin({ onLogout }) {
     formData.append('resume', resumeFile);
     axios.post('http://localhost:5000/api/upload-resume', formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
-    }).then(() => {
+    }).then((res) => {
       showMsg("Resume PDF file replaced in system assets.");
       setResumeFile(null);
+      saveProfileData({ ...profile, resumeUrl: res.data.url });
     }).catch(() => showMsg("Upload stream rejected.", "danger"));
   };
 

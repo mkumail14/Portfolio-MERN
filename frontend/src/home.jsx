@@ -310,7 +310,7 @@ function Home() {
               {/* <a href="#projects" className="btn btn-info text-dark fw-bold px-4 py-2 shadow-lg rounded-3">
                 View Work <i className="bi bi-arrow-right ms-2"></i>
               </a> */}
-              <a href="/Kumail_Asghar_Resume.pdf" download className="btn btn-outline-secondary text-white px-4 py-2 rounded-3" style={{ borderColor: 'rgba(255,255,255,0.15)' }}>
+              <a href={profile?.resumeUrl || "/Kumail_Asghar_Resume.pdf"} target="_blank" rel="noreferrer" className="btn btn-outline-secondary text-white px-4 py-2 rounded-3" style={{ borderColor: 'rgba(255,255,255,0.15)' }}>
                 Resume <i className="bi bi-download ms-2"></i>
               </a>
             </div>

@@ -6,6 +6,9 @@ const multer = require('multer');
 const path = require('path');
 const authMiddleware = require('./middleware/authMiddleware');
 
+const { v2: cloudinary } = require('cloudinary');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+
 dotenv.config();
 connectDB();
 
@@ -13,17 +16,37 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Multi-part Form Destination Storage Config for updating Resume File
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    // Pushes the incoming pdf directly into your React public directory asset location
-    cb(null, path.join(__dirname, '../frontend/public'));
-  },
-  filename: (req, file, cb) => {
-    cb(null, 'Kumail_Asghar_Resume.pdf'); // Standardized runtime filename mapping
+
+// 1. Authenticate the Cloudinary SDK using your .env keys
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
+// 2. Configure Cloudinary Storage Engine for Resumes
+const resumeStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'portfolio_assets/resumes',
+    allowed_formats: ['pdf', 'jpg', 'png', 'jpeg'],
+    resource_type: 'auto',
+    public_id: (req, file) => `Resume_${Date.now()}` // Dynamic to avoid caching issues
   }
 });
-const upload = multer({ storage });
+const uploadResume = multer({ storage: resumeStorage });
+
+// 3. Configure Cloudinary Storage Engine for Certificates
+const certStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'portfolio_assets/certificates',
+    allowed_formats: ['pdf', 'jpg', 'png', 'jpeg'],
+    resource_type: 'auto',
+    public_id: (req, file) => `Cert_${Date.now()}`
+  }
+});
+const uploadCert = multer({ storage: certStorage });
 
 // API Route Bindings
 app.use('/api/auth', require('./routes/authRoutes'));
@@ -31,28 +54,17 @@ app.use('/api/projects', require('./routes/projectRoutes'));
 app.use('/api/profile', require('./routes/profileRoutes'));
 app.use('/api/visits', require('./routes/visitRoutes'));
 
-// Certificate PDF Upload Config
-const fs = require('fs');
-const certsDir = path.join(__dirname, '../frontend/public/certs');
-if (!fs.existsSync(certsDir)) {
-  fs.mkdirSync(certsDir, { recursive: true });
-}
-const certStorage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, certsDir),
-  filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
-});
-const uploadCert = multer({ storage: certStorage });
-
+// POST Route for Certificate Upload
 app.post('/api/upload-cert', authMiddleware, uploadCert.single('certificate'), (req, res) => {
   if (!req.file) return res.status(400).json({ message: 'No file uploaded.' });
-  // Return the public URL for the file
-  res.json({ url: '/certs/' + req.file.filename });
+  // Return the Cloudinary secure URL for the file
+  res.json({ url: req.file.path });
 });
 
-// POST Route for structural Resume PDF Replacement
-app.post('/api/upload-resume', authMiddleware, upload.single('resume'), (req, res) => {
+// POST Route for Resume Upload
+app.post('/api/upload-resume', authMiddleware, uploadResume.single('resume'), (req, res) => {
   if (!req.file) return res.status(400).json({ message: 'No file uploaded.' });
-  res.json({ message: 'Resume PDF uploaded and replaced successfully!' });
+  res.json({ message: 'Resume uploaded successfully!', url: req.file.path });
 });
 
 // POST Route to capture contact inquiries
