@@ -1,0 +1,44 @@
+/* Custom Input Overrides for Premium Dark Layout Components */
+.custom-input-dark {
+  background-color: #030712 !important;
+  color: #f3f4f6 !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+.custom-input-dark:focus {
+  border-color: #0dcaf0 !important;
+  box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.15) !important;
+  background-color: #030712 !important;
+  color: #ffffff !important;
+}
+.custom-input-dark::placeholder {
+  color: #9ca3af !important;
+  opacity: 1 !important;
+}
+
+/* Improve contrast for grey text on dark backgrounds */
+.text-muted, .text-secondary {
+  color: #9ca3af !important;
+}
+
+/* Hover Accent Rules */
+.hover-white:hover { color: #ffffff !important; }
+.hover-info:hover { color: #0dcaf0 !important; }
+
+/* Pulse animation behavior for operational indicator loops */
+@keyframes pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(13, 202, 240, 0.4); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(13, 202, 240, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(13, 202, 240, 0); }
+}
+.dynamic-pulse {
+  animation: pulse 2s infinite;
+}
+
+/* Interactive Card Transitions */
+.transition-card {
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+.transition-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(13, 202, 240, 0.3) !important;
+}
