@@ -52,6 +52,18 @@ const certStorage = new CloudinaryStorage({
 });
 const uploadCert = multer({ storage: certStorage });
 
+// 4. Configure Cloudinary Storage Engine for Profile Pictures
+const profilePicStorage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: 'portfolio_assets/profile_pics',
+    allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
+    resource_type: 'image',
+    public_id: (req, file) => `ProfilePic_${Date.now()}`
+  }
+});
+const uploadProfilePic = multer({ storage: profilePicStorage });
+
 // API Route Bindings (Updated to point up one folder level)
 app.use('/api/auth', require('../routes/authRoutes'));
 app.use('/api/projects', require('../routes/projectRoutes'));
@@ -69,6 +81,12 @@ app.post('/api/upload-cert', authMiddleware, uploadCert.single('certificate'), (
 app.post('/api/upload-resume', authMiddleware, uploadResume.single('resume'), (req, res) => {
   if (!req.file) return res.status(400).json({ message: 'No file uploaded.' });
   res.json({ message: 'Resume uploaded successfully!', url: req.file.path });
+});
+
+// POST Route for Profile Picture Upload
+app.post('/api/upload-profile-pic', authMiddleware, uploadProfilePic.single('profilePic'), (req, res) => {
+  if (!req.file) return res.status(400).json({ message: 'No file uploaded.' });
+  res.json({ message: 'Profile picture uploaded successfully!', url: req.file.path });
 });
 
 // POST Route to capture contact inquiries

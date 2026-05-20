@@ -23,6 +23,7 @@ function Admin({ onLogout }) {
   const [certInput, setCertInput] = useState({ title: '', issuer: '' });
   const [certFile, setCertFile] = useState(null);
   const [resumeFile, setResumeFile] = useState(null);
+  const [profilePicFile, setProfilePicFile] = useState(null);
   const [statusMsg, setStatusMsg] = useState({ text: '', type: '' });
 
   useEffect(() => {
@@ -97,6 +98,20 @@ function Admin({ onLogout }) {
       setResumeFile(null);
       saveProfileData({ ...profile, resumeUrl: res.data.url });
     }).catch(() => showMsg("Upload stream rejected.", "danger"));
+  };
+
+  const handleProfilePicSubmit = (e) => {
+    e.preventDefault();
+    if (!profilePicFile) return;
+    const formData = new FormData();
+    formData.append('profilePic', profilePicFile);
+    axios.post('https://portfolio-mern-pvfn.vercel.app/api/upload-profile-pic', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    }).then((res) => {
+      showMsg("Profile picture uploaded securely.");
+      setProfilePicFile(null);
+      saveProfileData({ ...profile, profilePicUrl: res.data.url });
+    }).catch(() => showMsg("Profile picture upload failed.", "danger"));
   };
 
   // Rendering Loops
@@ -278,7 +293,7 @@ function Admin({ onLogout }) {
   }
 
   return (
-    <div style={{ backgroundColor: '#0b0f19', color: '#f3f4f6', minHeight: '100vh', fontFamily: "'Segoe UI', sans-serif" }} className="py-5">
+    <div className="py-5 min-vh-100">
       <div className="container">
         
         <div className="d-flex justify-content-between align-items-center border-bottom pb-3 mb-5" style={{ borderColor: 'rgba(255,255,255,0.08)' }}>
@@ -302,17 +317,29 @@ function Admin({ onLogout }) {
           </div>
         )}
 
-        <div className="btn-group w-100 mb-4 p-1 rounded-3 border flex-wrap" style={{ backgroundColor: '#111827', borderColor: 'rgba(255,255,255,0.05)' }}>
+        <div className="btn-group w-100 mb-4 p-1 glass-card border-0 flex-wrap">
           {tabButtons}
         </div>
 
-        <div className="card p-4 rounded-4 shadow-lg border-0" style={{ backgroundColor: '#111827' }}>
+        <div className="card p-4 glass-card border-0 bg-transparent">
           
           {activeTab === 'profile' && (
             <div>
               <h5 className="fw-bold text-white mb-4 border-bottom pb-2" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>Edit Biography Details</h5>
               <div className="row g-3">
                 {bioFields}
+                <div className="col-12 mt-4">
+                  <h6 className="fw-bold text-white mb-3">Profile Picture</h6>
+                  <div className="d-flex align-items-center gap-3 bg-dark p-3 rounded-3" style={{ border: '1px solid rgba(255,255,255,0.05)' }}>
+                    {profile.profilePicUrl && (
+                      <img src={profile.profilePicUrl} alt="Avatar" className="rounded-circle border border-info border-2" style={{ width: '60px', height: '60px', objectFit: 'cover' }} />
+                    )}
+                    <div className="flex-grow-1">
+                      <input type="file" accept="image/*" className="form-control form-control-sm custom-input-dark mb-2" onChange={e => setProfilePicFile(e.target.files[0])} />
+                      <button className="btn btn-sm btn-outline-info w-100" onClick={handleProfilePicSubmit} disabled={!profilePicFile}>Upload Image</button>
+                    </div>
+                  </div>
+                </div>
                 <div className="col-12 text-end mt-4">
                   <button className="btn btn-info text-dark fw-bold px-4" onClick={() => saveProfileData(profile)}>Save Biography Configuration</button>
                 </div>

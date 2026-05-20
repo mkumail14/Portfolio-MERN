@@ -7,7 +7,6 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [serverError, setServerError] = useState(false);
 
-  // Contact Form State
   const [contactForm, setContactForm] = useState({ name: '', email: '', text: '' });
   const [formStatus, setFormStatus] = useState({ text: '', type: '' });
 
@@ -49,7 +48,7 @@ function Home() {
     e.preventDefault();
     axios.post('https://portfolio-mern-pvfn.vercel.app/api/contact', contactForm)
       .then(() => {
-        setFormStatus({ text: "Message sent successfully! Stored in MongoDB.", type: "success" });
+        setFormStatus({ text: "Message sent successfully!", type: "success" });
         setContactForm({ name: '', email: '', text: '' });
       })
       .catch(() => {
@@ -137,7 +136,7 @@ function Home() {
     const stat = metrics[i];
     metricWidgets.push(
       <div className="col-4 col-md-3" key={i}>
-        <div className="p-3 rounded-3" style={{ backgroundColor: '#111827', border: '1px solid rgba(255,255,255,0.05)' }}>
+        <div className="p-3 glass-card">
           <h3 className="fw-bold text-white m-0 h4">{stat.title}</h3>
           <span className="text-muted small" style={{ fontSize: '0.75rem' }}>{stat.text}</span>
         </div>
@@ -160,7 +159,7 @@ function Home() {
 
       projectCards.push(
         <div className="col-md-6" key={project._id}>
-          <div className="card h-100 p-4 rounded-4 transition-card" style={{ backgroundColor: '#111827', border: '1px solid rgba(255,255,255,0.05)' }}>
+          <div className="card h-100 p-4 glass-card border-0 bg-transparent">
             <div className="d-flex justify-content-between align-items-start mb-3">
               <h4 className="h5 fw-bold text-white m-0">{project.title}</h4>
               {project.githubLink && (
@@ -186,7 +185,7 @@ function Home() {
     const cert = certifications[i];
     certWidgets.push(
       <div className="col-md-4" key={i}>
-        <div className="p-3 rounded-4 d-flex flex-column gap-2 h-100" style={{ backgroundColor: '#111827', border: '1px solid rgba(255,255,255,0.05)' }}>
+        <div className="p-3 glass-card d-flex flex-column gap-2 h-100">
           <div className="d-flex align-items-start gap-3">
             <i className="bi bi-patch-check-fill text-info fs-4"></i>
             <div>
@@ -226,7 +225,7 @@ function Home() {
     const exp = experience[i];
     expWidgets.push(
       <div className="col-md-6" key={i}>
-        <div className="p-4 rounded-4 h-100 transition-card" style={{ backgroundColor: '#111827', border: '1px solid rgba(255,255,255,0.05)' }}>
+        <div className="p-4 glass-card h-100">
           <div className="d-flex justify-content-between align-items-start mb-2">
             <h5 className="fw-bold text-white m-0">{exp.company}</h5>
             <span className="badge bg-dark text-info border border-info-subtle px-2 py-1" style={{ fontSize: '0.75rem' }}>{exp.timeline}</span>
@@ -251,7 +250,7 @@ function Home() {
       }
       skillWidgets.push(
         <div className="col-md-6" key={cat}>
-          <div className="p-4 rounded-4 h-100" style={{ backgroundColor: '#111827', border: '1px solid rgba(255,255,255,0.05)' }}>
+          <div className="p-4 glass-card h-100">
             <h5 className="fw-bold text-info text-capitalize mb-3">{cat}</h5>
             <div className="d-flex flex-wrap gap-2">
               {pillWidgets}
@@ -271,9 +270,9 @@ function Home() {
   }
 
   return (
-    <div style={{ backgroundColor: '#0b0f19', color: '#f3f4f6', fontFamily: "'Segoe UI', system-ui, sans-serif" }}>
+    <div className="min-vh-100">
       
-      <nav className="navbar navbar-expand-lg navbar-dark sticky-top py-3" style={{ backgroundColor: 'rgba(11, 15, 25, 0.85)', backdropFilter: 'blur(12px)', borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
+      <nav className="navbar navbar-expand-lg navbar-dark sticky-top py-3 glass-nav">
         <div className="container">
           <a className="navbar-brand fw-bold tracking-tight text-white d-flex align-items-center" href="#">
             <span className="text-info me-2">&lt;/&gt;</span> {initials}.dev
@@ -310,7 +309,7 @@ function Home() {
               {/* <a href="#projects" className="btn btn-info text-dark fw-bold px-4 py-2 shadow-lg rounded-3">
                 View Work <i className="bi bi-arrow-right ms-2"></i>
               </a> */}
-              <a href={profile?.resumeUrl || "/Kumail_Asghar_Resume.pdf"} target="_blank" rel="noreferrer" className="btn btn-outline-secondary text-white px-4 py-2 rounded-3" style={{ borderColor: 'rgba(255,255,255,0.15)' }}>
+              <a href={profile?.resumeUrl || "/Kumail_Asghar_Resume.pdf"} target="_blank" rel="noreferrer" className="btn btn-info fw-bold px-4 py-2 rounded-3 shadow-lg">
                 Resume <i className="bi bi-download ms-2"></i>
               </a>
             </div>
@@ -320,26 +319,51 @@ function Home() {
             </div>
           </div>
 
-          <div className="col-lg-5">
-            <div className="w-100 rounded-4 overflow-hidden shadow-2xl" style={{ backgroundColor: '#030712', border: '1px solid rgba(255,255,255,0.08)' }}>
-              <div className="d-flex align-items-center px-3 py-2 border-bottom" style={{ borderColor: 'rgba(255,255,255,0.05)', backgroundColor: '#111827' }}>
-                <div className="d-flex gap-1.5 me-3">
-                  <span className="rounded-circle bg-danger d-inline-block" style={{ width: '10px', height: '10px' }}></span>
-                  <span className="rounded-circle bg-warning d-inline-block mx-1" style={{ width: '10px', height: '10px' }}></span>
-                  <span className="rounded-circle bg-success d-inline-block" style={{ width: '10px', height: '10px' }}></span>
+          <div className="col-lg-5 position-relative mt-5 mt-lg-0">
+            {profile?.profilePicUrl ? (
+              <div className="profile-frame-container">
+                <div className="glow-ring"></div>
+                <div className="profile-frame">
+                  <img src={profile.profilePicUrl} alt={displayName} className="profile-img" />
                 </div>
-                <span className="text-muted small font-monospace" style={{ fontSize: '0.75rem' }}>💻 developer.js</span>
+                <div className="floating-code d-none d-md-block glass-card overflow-hidden shadow-lg">
+                  <div className="d-flex align-items-center px-3 py-2 border-bottom" style={{ borderColor: 'rgba(255,255,255,0.05)', backgroundColor: 'rgba(0,0,0,0.4)' }}>
+                    <div className="d-flex gap-1.5 me-3">
+                      <span className="rounded-circle bg-danger d-inline-block" style={{ width: '8px', height: '8px' }}></span>
+                      <span className="rounded-circle bg-warning d-inline-block mx-1" style={{ width: '8px', height: '8px' }}></span>
+                      <span className="rounded-circle bg-success d-inline-block" style={{ width: '8px', height: '8px' }}></span>
+                    </div>
+                    <span className="text-muted small font-monospace" style={{ fontSize: '0.7rem' }}>developer.js</span>
+                  </div>
+                  <div className="p-3 font-monospace small" style={{ color: '#9ca3af', lineHeight: '1.6', fontSize: '0.75rem' }}>
+                    <div><span className="text-info">const</span> <span className="text-warning">dev</span> = &#123;</div>
+                    <div className="ps-3">name: <span className="text-success">'{displayName.split(' ')[0]}'</span>,</div>
+                    <div className="ps-3">status: <span className="text-success">'active'</span></div>
+                    <div>&#125;;</div>
+                  </div>
+                </div>
               </div>
-              <div className="p-4 font-monospace small" style={{ color: '#9ca3af', lineHeight: '1.7' }}>
-                <div><span className="text-info">const</span> <span className="text-warning">developer</span> = &#123;</div>
-                <div className="ps-4">name: <span className="text-success">'{displayName}'</span>,</div>
-                <div className="ps-4">role: <span className="text-success">'{displayTitle}'</span>,</div>
-                <div className="ps-4">skills: [<span dangerouslySetInnerHTML={{__html: devSkillsStr}}></span>],</div>
-                <div className="ps-4">status: <span className="text-success">'{displayStatus}'</span></div>
-                <div>&#125;;</div>
-                <div className="mt-3"><span className="text-info">export default</span> <span className="text-warning">developer</span>;</div>
+            ) : (
+              <div className="w-100 glass-card overflow-hidden shadow-lg">
+                <div className="d-flex align-items-center px-3 py-2 border-bottom" style={{ borderColor: 'rgba(255,255,255,0.05)', backgroundColor: 'rgba(0,0,0,0.4)' }}>
+                  <div className="d-flex gap-1.5 me-3">
+                    <span className="rounded-circle bg-danger d-inline-block" style={{ width: '10px', height: '10px' }}></span>
+                    <span className="rounded-circle bg-warning d-inline-block mx-1" style={{ width: '10px', height: '10px' }}></span>
+                    <span className="rounded-circle bg-success d-inline-block" style={{ width: '10px', height: '10px' }}></span>
+                  </div>
+                  <span className="text-muted small font-monospace" style={{ fontSize: '0.75rem' }}>💻 developer.js</span>
+                </div>
+                <div className="p-4 font-monospace small" style={{ color: '#9ca3af', lineHeight: '1.7' }}>
+                  <div><span className="text-info">const</span> <span className="text-warning">developer</span> = &#123;</div>
+                  <div className="ps-4">name: <span className="text-success">'{displayName}'</span>,</div>
+                  <div className="ps-4">role: <span className="text-success">'{displayTitle}'</span>,</div>
+                  <div className="ps-4">skills: [<span dangerouslySetInnerHTML={{__html: devSkillsStr}}></span>],</div>
+                  <div className="ps-4">status: <span className="text-success">'{displayStatus}'</span></div>
+                  <div>&#125;;</div>
+                  <div className="mt-3"><span className="text-info">export default</span> <span className="text-warning">developer</span>;</div>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </header>
@@ -398,7 +422,7 @@ function Home() {
           </div>
 
           <div className="col-lg-6">
-            <div className="p-4 rounded-4 shadow-lg" style={{ backgroundColor: '#111827', border: '1px solid rgba(255,255,255,0.05)' }}>
+            <div className="p-4 glass-card">
               {formStatus.text && (
                 <div className={`alert alert-${formStatus.type} small p-2 mb-3`}>{formStatus.text}</div>
               )}
@@ -424,7 +448,7 @@ function Home() {
         </div>
       </section>
 
-      <footer className="bg-dark border-top py-4 text-center text-secondary small" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
+      <footer className="glass-nav border-top-0 mt-5 py-4 text-center text-secondary small">
         <p className="mb-0">© 2026 {displayName} • Custom MERN Portfolio Framework Engine</p>
       </footer>
     </div>

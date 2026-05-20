@@ -1,44 +1,199 @@
-/* Custom Input Overrides for Premium Dark Layout Components */
+:root {
+  --bg-dark: #020617; /* Slate 950 */
+  --bg-gradient: 
+    radial-gradient(circle at top right, rgba(6, 182, 212, 0.15), transparent 40%), 
+    radial-gradient(circle at bottom left, rgba(59, 130, 246, 0.15), transparent 40%), 
+    #020617;
+  --accent-cyan: #06b6d4;
+  --accent-blue: #3b82f6;
+  --glass-bg: rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-hover: rgba(6, 182, 212, 0.4);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+body {
+  font-family: 'Outfit', sans-serif !important;
+  background: var(--bg-gradient) !important;
+  background-attachment: fixed !important;
+  color: #f8fafc;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Glassmorphism Card System */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 1rem;
+}
+
+.glass-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--glass-border-hover);
+  box-shadow: 0 15px 40px -10px rgba(6, 182, 212, 0.15);
+}
+
+.glass-nav {
+  background: rgba(2, 6, 23, 0.6) !important;
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border) !important;
+}
+
+/* Custom Input Overrides */
 .custom-input-dark {
-  background-color: #030712 !important;
-  color: #f3f4f6 !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background-color: rgba(15, 23, 42, 0.6) !important;
+  color: #f8fafc !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
 }
 .custom-input-dark:focus {
-  border-color: #0dcaf0 !important;
-  box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.15) !important;
-  background-color: #030712 !important;
-  color: #ffffff !important;
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 0 0 0.25rem rgba(6, 182, 212, 0.15) !important;
+  background-color: rgba(15, 23, 42, 0.9) !important;
 }
 .custom-input-dark::placeholder {
-  color: #9ca3af !important;
-  opacity: 1 !important;
+  color: #64748b !important;
 }
 
 /* Improve contrast for grey text on dark backgrounds */
 .text-muted, .text-secondary {
-  color: #9ca3af !important;
+  color: #94a3b8 !important;
+}
+
+.text-info {
+  color: var(--accent-cyan) !important;
+}
+
+.btn-info {
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue)) !important;
+  border: none !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-info:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.5);
+  color: #ffffff !important;
+}
+
+.btn-outline-info {
+  border-color: var(--accent-cyan) !important;
+  color: var(--accent-cyan) !important;
+  transition: all 0.3s ease;
+}
+.btn-outline-info:hover {
+  background: rgba(6, 182, 212, 0.1) !important;
+  color: #ffffff !important;
 }
 
 /* Hover Accent Rules */
-.hover-white:hover { color: #ffffff !important; }
-.hover-info:hover { color: #0dcaf0 !important; }
+.hover-white { transition: color 0.3s ease; }
+.hover-white:hover { color: #ffffff !important; text-shadow: 0 0 8px rgba(255,255,255,0.4); }
+.hover-info { transition: color 0.3s ease; }
+.hover-info:hover { color: var(--accent-cyan) !important; text-shadow: 0 0 8px rgba(6,182,212,0.5); }
 
-/* Pulse animation behavior for operational indicator loops */
+/* Pulse animation behavior */
 @keyframes pulse {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(13, 202, 240, 0.4); }
-  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(13, 202, 240, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(13, 202, 240, 0); }
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.4); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(6, 182, 212, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(6, 182, 212, 0); }
 }
 .dynamic-pulse {
   animation: pulse 2s infinite;
 }
 
-/* Interactive Card Transitions */
+@keyframes spin-slow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Profile Picture Frame */
+.profile-frame-container {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  margin: 0 auto;
+}
+
+.glow-ring {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0%, var(--accent-cyan) 25%, transparent 50%, var(--accent-blue) 75%, transparent 100%);
+  animation: spin-slow 8s linear infinite;
+  opacity: 0.8;
+  filter: blur(8px);
+}
+
+.profile-frame {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-color: var(--bg-dark);
+  border: 4px solid var(--glass-border);
+  overflow: hidden;
+  z-index: 2;
+  box-shadow: 0 0 40px rgba(6, 182, 212, 0.3);
+}
+
+.profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.profile-frame-container:hover .profile-img {
+  transform: scale(1.08);
+}
+
+/* Developer JS overlapping element */
+.floating-code {
+  position: absolute;
+  bottom: -40px;
+  right: -50px;
+  width: 340px;
+  z-index: 3;
+  transform: rotate(3deg);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.floating-code:hover {
+  transform: rotate(0deg) scale(1.05) translateY(-10px);
+}
+
+/* Interactive Card Transitions (Legacy Support) */
 .transition-card {
-  transition: transform 0.25s ease, border-color 0.25s ease;
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .transition-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(13, 202, 240, 0.3) !important;
+  transform: translateY(-5px);
+  border-color: rgba(6, 182, 212, 0.3) !important;
+  box-shadow: 0 10px 30px -10px rgba(6, 182, 212, 0.2);
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #020617;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
 }

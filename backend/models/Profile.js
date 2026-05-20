@@ -40,6 +40,7 @@ const ProfileSchema = new mongoose.Schema({
     ] 
   },
   resumeUrl: { type: String, default: "" },
+  profilePicUrl: { type: String, default: "" },
   certifications: { 
     type: [{ title: String, issuer: String, pdfUrl: String }], 
     default: [
