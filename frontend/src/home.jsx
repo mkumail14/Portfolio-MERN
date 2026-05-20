@@ -74,7 +74,7 @@ function Home() {
         </div>
         <h1 className="fw-bold tracking-tight mb-3 text-white">System Offline</h1>
         <p className="text-secondary mb-5" style={{ maxWidth: '450px', lineHeight: '1.6' }}>
-          The central database clusters are currently unreachable or undergoing scheduled maintenance. Please stand by and try again shortly.
+          The Database or Server is currently unreachable or undergoing scheduled maintenance. Please stand by and try again shortly.
         </p>
         <button onClick={() => window.location.reload()} className="btn btn-outline-info rounded-3 px-4 py-2 fw-bold">
           <i className="bi bi-arrow-clockwise me-2"></i>Initiate Reconnection
