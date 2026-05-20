@@ -124,12 +124,9 @@ function Home() {
     // tools: ["Git", "Docker", "AWS", "Postman"]
   };
 
-  // Loop replacements
-  const nameParts = displayName.split(' ');
-  let initials = '';
-  for (let i = 0; i < nameParts.length; i++) {
-    if (nameParts[i]) initials += nameParts[i][0];
-  }
+  
+  let initials = 'MKA';
+
 
   const metricWidgets = [];
   for (let i = 0; i < metrics.length; i++) {
@@ -376,6 +373,8 @@ function Home() {
         </div>
       </section>
 )}
+
+
       <section id="skills" className="container py-5 border-top" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
         <h2 className="fw-bold text-white mb-4"><span className="text-info">#</span> Technical Arsenal</h2>
         <div className="row g-4">
@@ -449,7 +448,7 @@ function Home() {
       </section>
 
       <footer className="glass-nav border-top-0 mt-5 py-4 text-center text-secondary small">
-        <p className="mb-0">© 2026 {displayName} • Custom MERN Portfolio Framework Engine</p>
+        <p className="mb-0">© 2026 MKA • Engineered & Designed by Mohammad Kumail</p>
       </footer>
     </div>
   );
