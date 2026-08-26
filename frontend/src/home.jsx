@@ -13,7 +13,7 @@ function Home() {
   useEffect(() => {
     const trackVisit = async () => {
       try {
-        await axios.post('https://portfolio-mern-pvfn.vercel.app/api/visits', {
+        await axios.post(`${import.meta.env.VITE_API_URL}/visits`, {
           userAgent: navigator.userAgent,
           platform: navigator.platform,
           language: navigator.language
@@ -27,8 +27,8 @@ function Home() {
 
   useEffect(() => {
     Promise.all([
-      axios.get('https://portfolio-mern-pvfn.vercel.app/api/profile'),
-      axios.get('https://portfolio-mern-pvfn.vercel.app/api/projects')
+      axios.get(`${import.meta.env.VITE_API_URL}/profile`),
+      axios.get(`${import.meta.env.VITE_API_URL}/projects`)
     ])
     .then(([profileRes, projectsRes]) => {
       setProfile(profileRes.data);
@@ -46,7 +46,7 @@ function Home() {
 
   const handleContactSubmit = (e) => {
     e.preventDefault();
-    axios.post('https://portfolio-mern-pvfn.vercel.app/api/contact', contactForm)
+    axios.post(`${import.meta.env.VITE_API_URL}/contact`, contactForm)
       .then(() => {
         setFormStatus({ text: "Message sent successfully!", type: "success" });
         setContactForm({ name: '', email: '', text: '' });

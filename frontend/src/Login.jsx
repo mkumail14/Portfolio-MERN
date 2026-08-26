@@ -12,7 +12,7 @@ function Login({ onLoginSuccess }) {
     setError('');
 
     try {
-      const res = await axios.post('https://portfolio-mern-pvfn.vercel.app/api/auth/login', { password });
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, { password });
       if (res.data.token) {
         localStorage.setItem('adminToken', res.data.token);
         // Configure axios globally to use the token

@@ -31,7 +31,7 @@ function Admin({ onLogout }) {
   }, []);
 
   const loadAllData = () => {
-    axios.get('https://portfolio-mern-pvfn.vercel.app/api/profile').then(res => {
+    axios.get(`${import.meta.env.VITE_API_URL}/profile`).then(res => {
         let p = res.data;
         if(!p.status) p.status = "Available for New Opportunities";
         if(!p.heroHeading) p.heroHeading = "Crafting Digital Experiences";
@@ -40,9 +40,9 @@ function Admin({ onLogout }) {
         if(!p.certifications) p.certifications = [{ title: "AWS Academy Graduate: Cloud Foundations", issuer: "AWS Academy" }, { title: "Web & Mobile App Development", issuer: "Saylani Mass IT Training Program (SMIT)" }, { title: "Career Essentials in Software Development", issuer: "Microsoft & LinkedIn" }];
         setProfile(p);
     }).catch(err => console.log(err));
-    axios.get('https://portfolio-mern-pvfn.vercel.app/api/projects').then(res => setProjects(res.data)).catch(err => console.log(err));
-    axios.get('https://portfolio-mern-pvfn.vercel.app/api/contact').then(res => setMessages(res.data || [])).catch(() => {});
-    axios.get('https://portfolio-mern-pvfn.vercel.app/api/visits').then(res => setVisits(res.data || [])).catch(() => {});
+    axios.get(`${import.meta.env.VITE_API_URL}/projects`).then(res => setProjects(res.data)).catch(err => console.log(err));
+    axios.get(`${import.meta.env.VITE_API_URL}/contact`).then(res => setMessages(res.data || [])).catch(() => {});
+    axios.get(`${import.meta.env.VITE_API_URL}/visits`).then(res => setVisits(res.data || [])).catch(() => {});
   };
 
   const showMsg = (text, type = 'success') => {
@@ -51,7 +51,7 @@ function Admin({ onLogout }) {
   };
 
   const saveProfileData = (updatedData) => {
-    axios.put('https://portfolio-mern-pvfn.vercel.app/api/profile', updatedData)
+    axios.put(`${import.meta.env.VITE_API_URL}/profile`, updatedData)
       .then((res) => {
         setProfile(res.data);
         showMsg("Changes synchronized with MongoDB.");
@@ -72,7 +72,7 @@ function Admin({ onLogout }) {
       ...newProj,
       techStack: techArr
     };
-    axios.post('https://portfolio-mern-pvfn.vercel.app/api/projects', payload).then(() => {
+    axios.post(`${import.meta.env.VITE_API_URL}/projects`, payload).then(() => {
       setNewProj({ title: '', description: '', techStack: '', githubLink: '' });
       loadAllData();
       showMsg("Project document created successfully.");
@@ -80,7 +80,7 @@ function Admin({ onLogout }) {
   };
 
   const handleDeleteProject = (id) => {
-    axios.delete(`https://portfolio-mern-pvfn.vercel.app/api/projects/${id}`).then(() => {
+    axios.delete(`${import.meta.env.VITE_API_URL}/projects/${id}`).then(() => {
       loadAllData();
       showMsg("Project document deleted.");
     });
@@ -91,7 +91,7 @@ function Admin({ onLogout }) {
     if (!resumeFile) return;
     const formData = new FormData();
     formData.append('resume', resumeFile);
-    axios.post('https://portfolio-mern-pvfn.vercel.app/api/upload-resume', formData, {
+    axios.post(`${import.meta.env.VITE_API_URL}/upload-resume`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
     }).then((res) => {
       showMsg("Resume PDF file replaced in system assets.");
@@ -105,7 +105,7 @@ function Admin({ onLogout }) {
     if (!profilePicFile) return;
     const formData = new FormData();
     formData.append('profilePic', profilePicFile);
-    axios.post('https://portfolio-mern-pvfn.vercel.app/api/upload-profile-pic', formData, {
+    axios.post(`${import.meta.env.VITE_API_URL}/upload-profile-pic`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
     }).then((res) => {
       showMsg("Profile picture uploaded securely.");
@@ -530,7 +530,7 @@ function Admin({ onLogout }) {
                             const formData = new FormData();
                             formData.append('certificate', certFile);
                             try {
-                                const res = await axios.post('https://portfolio-mern-pvfn.vercel.app/api/upload-cert', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+                                const res = await axios.post(`${import.meta.env.VITE_API_URL}/upload-cert`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
                                 pdfUrl = res.data.url;
                             } catch(err) {
                                 showMsg("PDF upload failed", "danger");
